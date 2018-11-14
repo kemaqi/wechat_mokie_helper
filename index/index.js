@@ -29,6 +29,7 @@ Page({
     chs: [],
     bikeNum:[],
   },
+
   openBluetoothAdapter() {
     wx.openBluetoothAdapter({
       success: (res) => {
@@ -83,7 +84,7 @@ Page({
         var ManufacturerData = ab2hex(device.advertisData)
         var company_id = ManufacturerData.slice(0, 4)
         var bike_num = ManufacturerData.slice(20, 30)
-        /*
+        ///*
         //if (!device.name && !device.localName) {
         if (ble_name !== device.name || ble_name !== device.localName){
           console.log('ble_name is not mobike')
@@ -98,7 +99,7 @@ Page({
           console.log('bike_num length is not 10')
           return
         }
-        */
+        //*/
         const foundDevices = this.data.devices
         const idx = inArray(foundDevices, 'deviceId', device.deviceId)
         const data = {}
@@ -229,4 +230,11 @@ Page({
     wx.closeBluetoothAdapter()
     this._discoveryStarted = false
   },
+  onShow: function () {
+   // this.openBluetoothAdapter()
+  },
+  onPullDownRefresh:function(){
+    this.openBluetoothAdapter()
+   console.log('123')
+  }
 })
