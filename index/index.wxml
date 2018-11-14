@@ -1,0 +1,34 @@
+<wxs module="utils">
+module.exports.max = function(n1, n2) {
+  return Math.max(n1, n2)
+}
+module.exports.len = function(arr) {
+  arr = arr || []
+  return arr.length
+}
+</wxs>
+<button bindtap="openBluetoothAdapter">开始扫描</button>
+<button bindtap="stopBluetoothDevicesDiscovery">停止扫描</button>
+<button bindtap="closeBluetoothAdapter">结束流程</button>
+
+<view class="devices_summary">已发现 {{devices.length}} 个摩拜单车：</view>
+<scroll-view class="device_list" scroll-y scroll-with-animation>
+  <view wx:for="{{devices}}" wx:key="index"
+   data-device-id="{{item.deviceId}}"
+   data-name="{{item.name || item.localName}}"
+   bindtap="createBLEConnection" 
+   class="device_item"
+   hover-class="device_item_hover">
+   <!--
+    <view style="font-size: 16px; color: #333;">{{item.name}}</view>
+    <view style="font-size: 10px">信号强度: {{item.RSSI}}dBm</view>
+    <view style="font-size: 10px">UUID: {{item.deviceId}}</view>
+    <view style="font-size: 10px">Service数量: {{utils.len(item.advertisServiceUUIDs)}}</view>
+    <view style="font-size: 10px">advertisData: {{item.advertisData}}</view>
+    <view style="font-size: 10px">localName: {{item.localName}}</view>
+    <view style="font-size: 10px">serviceData: {{item.serviceData}}</view>
+    <view style="font-size: 10px">bikeNum: {{item.bikeNum}}</view>
+    -->
+    <view style="font-size: 10px">单车编号: {{item.bikeNum}}</view>
+  </view>
+</scroll-view>
