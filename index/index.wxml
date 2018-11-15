@@ -7,30 +7,17 @@ module.exports.len = function(arr) {
   return arr.length
 }
 </wxs>
-<button bindtap="openBluetoothAdapter">开始扫描</button>
-<button bindtap="stopBluetoothDevicesDiscovery">停止扫描</button>
-<button bindtap="closeBluetoothAdapter">结束流程</button>
+<button wx:if="{{DeviceStart}}" bindtap="openBluetoothAdapter">开始扫描</button>
+<button wx:else bindtap="closeBluetoothAdapter">停止扫描</button>
 
 <view class="devices_summary">已发现 {{devices.length}} 量摩拜单车：</view>
 <scroll-view class="device_list" scroll-y scroll-with-animation>
-  <view wx:for="{{devices}}" wx:key="index"
-   class="device_item"
-   hover-class="device_item_hover">
-    <view style="font-size: 16px">单车编号: {{item.bikeNum}} <view style="font-size: 10px">({{item.RSSI}})dBm</view></view>
-
-  </view>
-</scroll-view>
-
-<view class="connected_info" wx:if="{{connected}}">
-  <view>
-    <text>已连接到 {{name}}</text>
-    <view class="operation">
-    <button wx:if="{{canWrite}}" size="mini" bindtap="writeBLECharacteristicValue">写数据</button>
-    <button size="mini" bindtap="closeBLEConnection">断开连接</button>
+  <view wx:for="{{devices}}" wx:for-index="i" wx:key="index" class="device_item" hover-class="device_item_hover">
+    <view style="font-size: 16px">
+      <text style="float: left" selectable="true"> {{i}} 单车编号：</text>
+      <text style="font-size: 20px" selectable="true" bindlongtap="copy">{{item.bikeNum}}</text> 
+      <text wx:if="{{item.RSSI>-90}}" style="float: right">{{item.RSSI}}dBm</text>
+      <text wx:else style="float: right;color: red">{{item.RSSI}}dBm</text>
     </view>
   </view>
-  <view wx:for="{{chs}}" wx:key="index" style="font-size: 12px; margin-top: 10px;">
-    <view>特性UUID: {{item.uuid}}</view>
-    <view>特性值: {{item.value}}</view>
-  </view>
-</view>
+</scroll-view>

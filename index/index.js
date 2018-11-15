@@ -23,11 +23,11 @@ function ab2hex(buffer) {
 Page({
   data: {
     bleName:'mobike',
-    companyId: 'B304', //mobike companyId
+    companyId: 'b304', //mobike companyId
     devices: [],
     connected: false,
     chs: [],
-    bikeNum:[],
+    DeviceStart:true
   },
 
   openBluetoothAdapter() {
@@ -69,6 +69,8 @@ Page({
       allowDuplicatesKey: true,
       success: (res) => {
         console.log('startBluetoothDevicesDiscovery success', res)
+        this.setData({DeviceStart: false})
+        console.log("DeviceStart=" + this.data.DeviceStart)
         this.onBluetoothDeviceFound()
       },
     })
@@ -85,18 +87,18 @@ Page({
         var company_id = ManufacturerData.slice(0, 4)
         var bike_num = ManufacturerData.slice(20, 30)
         ///*
-        //if (!device.name && !device.localName) {
-        if (ble_name !== device.name || ble_name !== device.localName){
-          console.log('ble_name is not mobike')
+        if (!device.name && !device.localName) {
+        //if (ble_name !== device.name || ble_name !== device.localName){
+          //console.log('ble_name is null')
           return
         }
-        if (company_id !== device.companyId){
-          console.log('company id is not B304')
+        if (company_id !== this.data.companyId ){
+          //console.log("company id = " + company_id + " is not " + this.data.companyId)
           return 
         }
-        if(bike_num != 10)
+        if(bike_num.length != 10)
         {
-          console.log('bike_num length is not 10')
+          //console.log('bike_num length is not 10')
           return
         }
         //*/
@@ -228,13 +230,24 @@ Page({
   },
   closeBluetoothAdapter() {
     wx.closeBluetoothAdapter()
+    this.setData({ DeviceStart: true })
     this._discoveryStarted = false
+    console.log("DeviceStart=" + this.data.DeviceStart)
   },
   onShow: function () {
-   // this.openBluetoothAdapter()
+    this.openBluetoothAdapter()
+    console.log("onShow")
+  },
+  onReady: function () {
+    this.openBluetoothAdapter()
+    console.log("onReady")
+  },
+  onHide: function(){
+    this.closeBluetoothAdapter()
+    console.log("onHide")
   },
   onPullDownRefresh:function(){
     this.openBluetoothAdapter()
-   console.log('123')
+    console.log("onPullDownRefresh")
   }
 })
