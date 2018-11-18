@@ -34,8 +34,12 @@ page {
   min-height: 100px;
   box-shadow: 0px 0px 3px 0px;
 }
-.connected_info .operation {
+.connected_info .operation {  
   position: absolute;
   display: inline-block;
   right: 30px;
+}
+.mobike_list {
+line-height: 30rpx;
+font-family:microsoft yahei,Arial, Helvetica, sans-serif;
 }

@@ -249,5 +249,41 @@ Page({
   onPullDownRefresh:function(){
     this.openBluetoothAdapter()
     console.log("onPullDownRefresh")
+  },
+  copyTBL: function (e) {
+    console.log("kmq start"+e+"kmq end")
+    console.log(e.currentTarget.dataset)
+    console.log(parseInt(e.currentTarget.dataset.index))
+    
+    
+    //console.log(this.data.devices[e.currentTarget.id].bikeNum)
+    wx.setClipboardData({
+      data: "123",
+      /*
+      success: function (res) {
+        wx.showToast({
+         title: '复制成功',
+        });
+      }
+      */
+      // /*
+      success: function (res) {
+        // self.setData({copyTip:true}),
+       
+        wx.showModal({
+          title: '提示',
+          content: '复制成功',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('确定')
+            } else if (res.cancel) {
+              console.log('取消')
+            }
+          }
+        })
+        
+      }
+      //*/
+    });
   }
 })
