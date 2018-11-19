@@ -12,13 +12,12 @@ module.exports.len = function(arr) {
 
 <view class="devices_summary">已发现 {{devices.length}} 量摩拜单车：</view>
 <view class="mobike_list" >
-  <view wx:for="{{devices}}" wx:for-index="i" wx:key="index" class="device_item" hover-class="device_item_hover" bindlongtap="copyTBL">
+  <view wx:for="{{devices}}" wx:for-index="i" wx:key="index" class="device_item" hover-class="device_item_hover">
     <view style="font-size: 16px">
       <text style="float: left"> {{i+1}} 单车编号：</text>
-      <text style="font-size: 18px;font-weight:900" selectable="true">{{item.bikeNum}}</text> 
+      <text style="font-size: 18px;font-weight:900" data-bikeNum="{{item.bikeNum}}" bindlongtap="copyTBL">{{item.bikeNum}}</text> 
       <text wx:if="{{item.RSSI>-90}}" style="float: right">{{item.RSSI}}dBm</text>
       <text wx:else style="float: right;color: red">{{item.RSSI}}dBm</text>
     </view>
   </view>
 </view>
- <text selectable="true"selectable="true" bindlongtap="copyTBL">单车编号：</text>

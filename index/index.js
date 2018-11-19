@@ -251,22 +251,16 @@ Page({
     console.log("onPullDownRefresh")
   },
   copyTBL: function (e) {
-    console.log("kmq start"+e+"kmq end")
-    console.log(e.currentTarget.dataset)
-    console.log(parseInt(e.currentTarget.dataset.index))
-    
-    
-    //console.log(this.data.devices[e.currentTarget.id].bikeNum)
     wx.setClipboardData({
-      data: "123",
-      /*
+      data: e.currentTarget.dataset.bikenum,
+      ///*
       success: function (res) {
         wx.showToast({
          title: '复制成功',
         });
       }
-      */
-      // /*
+      //*/
+       /*
       success: function (res) {
         // self.setData({copyTip:true}),
        
@@ -283,7 +277,7 @@ Page({
         })
         
       }
-      //*/
+      */
     });
   }
 })
