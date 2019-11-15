@@ -40,6 +40,6 @@ page {
   right: 30px;
 }
 .mobike_list {
-line-height: 30rpx;
-font-family:microsoft yahei,Arial, Helvetica, sans-serif;
+  line-height: 30rpx;
+  font-family:microsoft yahei,Arial, Helvetica, sans-serif;
 }

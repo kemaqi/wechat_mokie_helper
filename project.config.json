@@ -6,15 +6,25 @@
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true
+		"postcss": false,
+		"minified": false,
+		"newFeature": true,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.0.8",
-	"appid": "touristappid",
+	"appid": "wx8ed90e6355feedb3",
 	"projectname": "123",
 	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

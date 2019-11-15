@@ -1,4 +1,3 @@
-const app = getApp()
 
 function inArray(arr, key, val) {
   for (let i = 0; i < arr.length; i++) {
@@ -22,22 +21,22 @@ function ab2hex(buffer) {
 
 Page({
   data: {
-    bleName:'mobike',
+    bleName: 'mobike',
     companyId: 'b304', //mobike companyId
     devices: [],
-    connected: false,
-    chs: [],
-    DeviceStart:true
+    //connected: false,
+    //chs: [],
+    DeviceStart: false
   },
 
   openBluetoothAdapter() {
-    wx.openBluetoothAdapter({
-      success: (res) => {
+    wx.openBluetoothAdapter({//初始化蓝牙模块
+      success:(res)=>{
         console.log('openBluetoothAdapter success', res)
-        this.startBluetoothDevicesDiscovery()
+        this.startBluetoothDevicesDiscovery()//开启扫描
       },
-      fail: (res) => {
-        if (res.errCode === 10001) {
+      fail:(res)=>{
+        if (res.errCode === 10001) {//蓝牙未打开
           wx.onBluetoothAdapterStateChange(function (res) {
             console.log('onBluetoothAdapterStateChange', res)
             if (res.available) {
@@ -61,15 +60,11 @@ Page({
     })
   },
   startBluetoothDevicesDiscovery() {
-    if (this._discoveryStarted) {
-      return
-    }
-    this._discoveryStarted = true
     wx.startBluetoothDevicesDiscovery({
       allowDuplicatesKey: true,
       success: (res) => {
         console.log('startBluetoothDevicesDiscovery success', res)
-        this.setData({DeviceStart: false})
+        this.setData({ DeviceStart: false })
         console.log("DeviceStart=" + this.data.DeviceStart)
         this.onBluetoothDeviceFound()
       },
@@ -80,42 +75,44 @@ Page({
   },
   onBluetoothDeviceFound() {
     wx.onBluetoothDeviceFound((res) => {
-      res.devices.forEach(device => {
-
+      res.devices.forEach( device => {
+        
         var ble_name = this.data.bleName
         var ManufacturerData = ab2hex(device.advertisData)
         var company_id = ManufacturerData.slice(0, 4)
         var bike_num = ManufacturerData.slice(20, 30)
         ///*
         if (!device.name && !device.localName) {
-        //if (ble_name !== device.name || ble_name !== device.localName){
+          //if (ble_name !== device.name || ble_name !== device.localName){
           //console.log('ble_name is null')
           return
         }
-        if (company_id !== this.data.companyId ){
+        if (company_id !== this.data.companyId) {
           //console.log("company id = " + company_id + " is not " + this.data.companyId)
-          return 
+          return
         }
-        if(bike_num.length != 10)
-        {
+        if (bike_num.length != 10) {
           //console.log('bike_num length is not 10')
           return
         }
         //*/
-        const foundDevices = this.data.devices
-        const idx = inArray(foundDevices, 'deviceId', device.deviceId)
-        const data = {}
+        const length = this.data.devices.length
+        const idx = inArray(this.data.devices, 'bike_num', bike_num)
+        console.log(idx)
         if (idx === -1) {
-          data[`devices[${foundDevices.length}]`] = device
-          data[`devices[${foundDevices.length}].bikeNum`] = bike_num
+            this.data.devices[length] = {}
+            this.data.devices[length].bike_num = bike_num
+            this.data.devices[length].RSSI = device.RSSI 
         } else {
-          data[`devices[${idx}]`] = device
-          data[`devices[${idx}].bikeNum`] = bike_num
+            this.data.devices[idx].bikeNum = bike_num
+            this.data.devices[idx].RSSI = device.RSSI 
         }
-        this.setData(data)
+        this.setData(this.data)
+
       })
     })
   },
+  /*
   createBLEConnection(e) {
     const ds = e.currentTarget.dataset
     const deviceId = ds.deviceId
@@ -228,10 +225,11 @@ Page({
       value: buffer,
     })
   },
+  */
   closeBluetoothAdapter() {
     wx.closeBluetoothAdapter()
+    this.setData({ devices: []       })
     this.setData({ DeviceStart: true })
-    this._discoveryStarted = false
     console.log("DeviceStart=" + this.data.DeviceStart)
   },
   onShow: function () {
@@ -242,11 +240,11 @@ Page({
     this.openBluetoothAdapter()
     console.log("onReady")
   },
-  onHide: function(){
+  onHide: function () {
     this.closeBluetoothAdapter()
     console.log("onHide")
   },
-  onPullDownRefresh:function(){
+  onPullDownRefresh: function () {
     this.openBluetoothAdapter()
     console.log("onPullDownRefresh")
   },
@@ -254,30 +252,30 @@ Page({
     wx.setClipboardData({
       data: e.currentTarget.dataset.bikenum,
       ///*
-      success: function (res) {
+      success: function (_res) {
         wx.showToast({
-         title: '复制成功',
+          title: '复制成功',
         });
       }
       //*/
-       /*
-      success: function (res) {
-        // self.setData({copyTip:true}),
+      /*
+     success: function (res) {
+       // self.setData({copyTip:true}),
+      
+       wx.showModal({
+         title: '提示',
+         content: '复制成功',
+         success: function (res) {
+           if (res.confirm) {
+             console.log('确定')
+           } else if (res.cancel) {
+             console.log('取消')
+           }
+         }
+       })
        
-        wx.showModal({
-          title: '提示',
-          content: '复制成功',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('确定')
-            } else if (res.cancel) {
-              console.log('取消')
-            }
-          }
-        })
-        
-      }
-      */
+     }
+     */
     });
   }
 })

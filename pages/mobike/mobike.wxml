@@ -1,21 +1,13 @@
-<wxs module="utils">
-module.exports.max = function(n1, n2) {
-  return Math.max(n1, n2)
-}
-module.exports.len = function(arr) {
-  arr = arr || []
-  return arr.length
-}
-</wxs>
+
 <button wx:if="{{DeviceStart}}" bindtap="openBluetoothAdapter">开始扫描</button>
 <button wx:else bindtap="closeBluetoothAdapter">停止扫描</button>
 
 <view class="devices_summary">已发现 {{devices.length}} 量摩拜单车：</view>
 <view class="mobike_list" >
-  <view wx:for="{{devices}}" wx:for-index="i" wx:key="index" class="device_item" hover-class="device_item_hover">
+  <view wx:for="{{devices}}"  wx:for-index="index" wx:for-item="item" wx:key="key" class="device_item" hover-class="device_item_hover">
     <view style="font-size: 16px">
-      <text style="float: left"> {{i+1}} 单车编号：</text>
-      <text style="font-size: 18px;font-weight:900" data-bikeNum="{{item.bikeNum}}" bindlongtap="copyTBL">{{item.bikeNum}}</text> 
+      <text style="float: left">{{index+1}} 单车编号：</text>
+      <text style="font-size: 18px;font-weight:900" data-bikeNum="{{item.bike_num}}" bindlongtap="copyTBL">{{item.bike_num}}</text> 
       <text wx:if="{{item.RSSI>-90}}" style="float: right">{{item.RSSI}}dBm</text>
       <text wx:else style="float: right;color: red">{{item.RSSI}}dBm</text>
     </view>
