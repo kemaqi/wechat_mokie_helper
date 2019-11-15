@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/mobike/mobike"
+    "pages/mobike/mobike"  
   ],
   "window": {
     "backgroundTextStyle": "light",

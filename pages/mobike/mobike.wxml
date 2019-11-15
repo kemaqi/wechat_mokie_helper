@@ -1,15 +1,30 @@
-
-<button wx:if="{{DeviceStart}}" bindtap="openBluetoothAdapter">开始扫描</button>
-<button wx:else bindtap="closeBluetoothAdapter">停止扫描</button>
-
-<view class="devices_summary">已发现 {{devices.length}} 量摩拜单车：</view>
-<view class="mobike_list" >
-  <view wx:for="{{devices}}"  wx:for-index="index" wx:for-item="item" wx:key="key" class="device_item" hover-class="device_item_hover">
-    <view style="font-size: 16px">
-      <text style="float: left">{{index+1}} 单车编号：</text>
-      <text style="font-size: 18px;font-weight:900" data-bikeNum="{{item.bike_num}}" bindlongtap="copyTBL">{{item.bike_num}}</text> 
-      <text wx:if="{{item.RSSI>-90}}" style="float: right">{{item.RSSI}}dBm</text>
-      <text wx:else style="float: right;color: red">{{item.RSSI}}dBm</text>
+<view wx:if="{{isHide}}">
+    <view wx:if="{{canIUse}}" >
+        <view class='content'>
+            <view>申请获取以下权限</view>
+            <text>获得你的公开信息(昵称，头像等)</text>
+        </view>
+        <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">
+            授权登录
+        </button>
     </view>
-  </view>
+    <view wx:else>请升级微信版本</view>
 </view>
+ 
+<view wx:else>
+    <button wx:if="{{DeviceStart}}" bindtap="openBluetoothAdapter">开始扫描</button>
+    <button wx:else bindtap="closeBluetoothAdapter">停止扫描</button>
+
+    <view class="devices_summary">已发现 {{devices.length}} 量摩拜单车：</view>
+    <view class="mobike_list" >
+      <view wx:for="{{devices}}"  wx:for-index="index" wx:for-item="item" wx:key="key" class="device_item" hover-class="device_item_hover">
+        <view style="font-size: 16px">
+          <text style="float: left">{{index+1}} 单车编号：</text>
+          <text style="font-size: 18px;font-weight:900" data-bikeNum="{{item.bike_num}}" bindlongtap="copyTBL">{{item.bike_num}}</text> 
+          <text wx:if="{{item.RSSI>-90}}" style="float: right">{{item.RSSI}}dBm</text>
+          <text wx:else style="float: right;color: red">{{item.RSSI}}dBm</text>
+        </view>
+      </view>
+    </view>
+</view>
+
